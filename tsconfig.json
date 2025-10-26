@@ -1,0 +1,54 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+
+    // File Layout
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    // Environment Settings
+    // See also https://aka.ms/tsconfig/module
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "target": "es2022",
+    "types": ["@cloudflare/workers-types"], //NOTE: this is usefull to get types for cloudflare workers 
+    // For nodejs:
+    "lib": ["ES2022", "WebWorker"], //NOTE: webworker must be added for sveltekit cloudflare workers projects
+    // "types": ["node"], 
+    // and npm install -D @types/node
+
+    // Other Outputs
+    "sourceMap": true, //ALA: Generates corresponding '.map' file
+    "declaration": true, //ALA: Generates corresponding '.d.ts' file
+    "declarationMap": true, //ALA: Generates a sourcemap for each corresponding '.d.ts' file.
+
+    // Stricter Typechecking Options
+    "noUncheckedIndexedAccess": true, //ALA: adds 'undefined' to the type of an indexed access when accessing a property that does not exist, 
+    "exactOptionalPropertyTypes": true, //ALA: interpret optional properties as written, not adding 'undefined' to their types
+    "resolveJsonModule": true, //ALA: Enables importing .json files
+    "allowSyntheticDefaultImports": true, //ALA: Allows default imports from modules with no default export
+    // Style Options
+    // "noImplicitReturns": true,
+    // "noImplicitOverride": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noPropertyAccessFromIndexSignature": true,
+
+    // Recommended Options
+    "strict": true,
+    "verbatimModuleSyntax": false, 
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "*.config.*"
+  ]
+}
