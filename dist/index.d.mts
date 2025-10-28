@@ -1,15 +1,13 @@
 /// <reference types="@cloudflare/workers-types" />
-import { Env, CfProperties, ExecutionContext, CacheStorage } from '@cloudflare/workers-types';
-
 // Explicit type-only imports to ensure they stay as type imports in the build
 
 
 // Default platform interface - can be overridden by consumers
 interface DefaultCloudflareplatform {
-    env: Env | any;
-    cf: CfProperties | any;
-    ctx: ExecutionContext | any;
-    caches: { default: Cache } & CacheStorage | any;
+    env:  any;
+    cf:  any;
+    ctx: any;
+    caches: any;
 }
 
 // Type definitions for Cloudflare Workers platform in SvelteKit
