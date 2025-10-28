@@ -1,24 +1,26 @@
 /// <reference types="@cloudflare/workers-types" />
 import { Env, CfProperties, ExecutionContext, CacheStorage } from '@cloudflare/workers-types';
 
-// Import types from Cloudflare Workers
+// Explicit type-only imports to ensure they stay as type imports in the build
 
 
+// Default platform interface - can be overridden by consumers
+interface DefaultCloudflareplatform {
+    env: Env;
+    cf: CfProperties;
+    ctx: ExecutionContext;
+    context: ExecutionContext;
+    caches: { default: Cache } & CacheStorage;
+}
 
 // Type definitions for Cloudflare Workers platform in SvelteKit
 // These types should match @cloudflare/workers-types
 declare namespace CloudflareHelper {
-    interface Platform {
-        env: Env
-        cf: CfProperties
-        ctx: ExecutionContext
-        caches: { default: Cache  } & CacheStorage
-        
-    }
-        interface R2BucketInfo {
+    // Default platform - users can override this with their own types
+    interface Platform extends DefaultCloudflareplatform {}
+    interface R2BucketInfo {
         name: string
     }
-
     interface BucketOptions {
         limit?: number;
         include: string[];
@@ -44,15 +46,17 @@ declare namespace CloudflareHelper {
 /**
  * Base class for Cloudflare Workers integrations
  * Provides single point of access to Cloudflare platform APIs
+ *
+ * @template TPlatform - Platform interface, defaults to DefaultCloudflareplatform
  */
-declare class CloudflareBase {
-    protected platform: Readonly<CloudflareHelper.Platform>;
-    constructor(platform: Readonly<CloudflareHelper.Platform>);
+declare class CloudflareBase<TPlatform extends DefaultCloudflareplatform = DefaultCloudflareplatform> {
+    protected platform: Readonly<TPlatform>;
+    constructor(platform: Readonly<TPlatform>);
     /**
      * Get the platform object - this contains the Cloudflare Workers environment
      * @returns The readonly platform object
      */
-    protected getPlatform(): Readonly<CloudflareHelper.Platform>;
+    protected getPlatform(): Readonly<TPlatform>;
     /**
      * Get specific binding from environment
      * @param name - Name of the binding
@@ -63,12 +67,12 @@ declare class CloudflareBase {
      * Get the Cloudflare Workers environment object
      * @returns The environment object containing bindings
      */
-    protected getEnv(): CloudflareHelper.Platform['env'];
+    protected getEnv(): TPlatform['env'];
     /**
      * Get the execution context for waitUntil and passThroughOnException
      * @returns The execution context
      */
-    protected getContext(): CloudflareHelper.Platform['ctx'];
+    protected getContext(): TPlatform['ctx'];
     /**
      * Get the default cache from Cloudflare Workers
      * @returns The default cache instance
@@ -78,26 +82,28 @@ declare class CloudflareBase {
      * Get the Cloudflare request properties
      * @returns The cf properties from the request
      */
-    protected getCfProperties(): CloudflareHelper.Platform['cf'];
+    protected getCfProperties(): TPlatform['cf'];
     /**
      * Get the cache storage interface
      * @returns The caches object containing named caches and default cache
      */
-    protected getCacheStorage(): CloudflareHelper.Platform['caches'];
+    protected getCacheStorage(): TPlatform['caches'];
     /**
      * Get the Cloudflare Workers context functions
      * @returns Object with waitUntil and passThroughOnException functions
      */
-    protected getExecutionContext(): CloudflareHelper.Platform['ctx'];
+    protected getExecutionContext(): TPlatform['context'];
 }
 
 /**
  * Cloudflare Cache Response Helper
  * This class provides methods to interact with the Cloudflare cache.
+ *
+ * @template TPlatform - Platform interface, defaults to DefaultCloudflareplatform
  */
-declare class CFCacheResponse extends CloudflareBase {
+declare class CFCacheResponse<TPlatform extends DefaultCloudflareplatform = DefaultCloudflareplatform> extends CloudflareBase<TPlatform> {
     #private;
-    constructor(platform: Readonly<CloudflareHelper.Platform>);
+    constructor(platform: Readonly<TPlatform>);
     /**
      * Builds a cache key for the given request.
      * @param request The request to build the cache key for.
@@ -141,11 +147,13 @@ declare class CFCacheResponse extends CloudflareBase {
 /**
  * Cloudflare R2 Storage Helper
  * This class provides methods to interact with R2 buckets.
+ *
+ * @template TPlatform - Platform interface, defaults to DefaultCloudflareplatform
  */
-declare class CFR2 extends CloudflareBase {
+declare class CFR2<TPlatform extends DefaultCloudflareplatform = DefaultCloudflareplatform> extends CloudflareBase<TPlatform> {
     private static readonly MAX_METADATA_SIZE;
     private static readonly MAX_KEY_LENGTH;
-    constructor(platform: Readonly<CloudflareHelper.Platform>);
+    constructor(platform: Readonly<TPlatform>);
     /**
      * Validates bucket name
      * @param bucketName - Name of the bucket to validate
@@ -177,4 +185,4 @@ declare class CFR2 extends CloudflareBase {
     }>;
 }
 
-export { CFCacheResponse, CFR2, CloudflareBase, CloudflareHelper };
+export { CFCacheResponse, CFR2, CloudflareBase, CloudflareHelper, type DefaultCloudflareplatform };

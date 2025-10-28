@@ -1,6 +1,5 @@
-// Import types from Cloudflare Workers
-
 /// <reference types="@cloudflare/workers-types" />
+// Explicit type-only imports to ensure they stay as type imports in the build
 import type { 
     Env,
     CfProperties, 
@@ -8,20 +7,23 @@ import type {
     CacheStorage
 } from '@cloudflare/workers-types';
 
+// Default platform interface - can be overridden by consumers
+export interface DefaultCloudflareplatform {
+    env: Env;
+    cf: CfProperties;
+    ctx: ExecutionContext;
+    context: ExecutionContext;
+    caches: { default: Cache } & CacheStorage;
+}
+
 // Type definitions for Cloudflare Workers platform in SvelteKit
 // These types should match @cloudflare/workers-types
 export namespace CloudflareHelper {
-    interface Platform {
-        env: Env
-        cf: CfProperties
-        ctx: ExecutionContext
-        caches: { default: Cache  } & CacheStorage
-        
-    }
-        interface R2BucketInfo {
+    // Default platform - users can override this with their own types
+    interface Platform extends DefaultCloudflareplatform {}
+    interface R2BucketInfo {
         name: string
     }
-
     interface BucketOptions {
         limit?: number;
         include: string[];
@@ -43,7 +45,3 @@ export namespace CloudflareHelper {
     }
     // Generic environment interface - users can extend this in their projects
 }
-
-export { App };
-
-

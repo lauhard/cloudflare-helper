@@ -1,13 +1,15 @@
-import { CloudflareHelper } from './types';
+import type { DefaultCloudflareplatform } from './types';
 
 /**
  * Base class for Cloudflare Workers integrations
  * Provides single point of access to Cloudflare platform APIs
+ * 
+ * @template TPlatform - Platform interface, defaults to DefaultCloudflareplatform
  */
-export class CloudflareBase {
-    protected platform: Readonly<CloudflareHelper.Platform>;
+export class CloudflareBase<TPlatform extends DefaultCloudflareplatform = DefaultCloudflareplatform> {
+    protected platform: Readonly<TPlatform>;
     
-    constructor(platform: Readonly<CloudflareHelper.Platform>) {
+    constructor(platform: Readonly<TPlatform>) {
         this.platform = platform;
     }
 
@@ -15,7 +17,7 @@ export class CloudflareBase {
      * Get the platform object - this contains the Cloudflare Workers environment
      * @returns The readonly platform object
      */
-    protected getPlatform(): Readonly<CloudflareHelper.Platform> {
+    protected getPlatform(): Readonly<TPlatform> {
         return this.platform;
     }
 
@@ -36,7 +38,7 @@ export class CloudflareBase {
      * Get the Cloudflare Workers environment object
      * @returns The environment object containing bindings
      */
-    protected getEnv(): CloudflareHelper.Platform['env'] {
+    protected getEnv(): TPlatform['env'] {
         return this.platform.env;
     }
 
@@ -44,7 +46,7 @@ export class CloudflareBase {
      * Get the execution context for waitUntil and passThroughOnException
      * @returns The execution context
      */
-    protected getContext(): CloudflareHelper.Platform['ctx'] {
+    protected getContext(): TPlatform['ctx'] {
         return this.platform.ctx;
     }
 
@@ -60,7 +62,7 @@ export class CloudflareBase {
      * Get the Cloudflare request properties
      * @returns The cf properties from the request
      */
-    protected getCfProperties(): CloudflareHelper.Platform['cf'] {
+    protected getCfProperties(): TPlatform['cf'] {
         return this.platform.cf;
     }
 
@@ -68,7 +70,7 @@ export class CloudflareBase {
      * Get the cache storage interface
      * @returns The caches object containing named caches and default cache
      */
-    protected getCacheStorage(): CloudflareHelper.Platform['caches'] {
+    protected getCacheStorage(): TPlatform['caches'] {
         return this.platform.caches;
     }
 
@@ -76,7 +78,7 @@ export class CloudflareBase {
      * Get the Cloudflare Workers context functions
      * @returns Object with waitUntil and passThroughOnException functions
      */
-    protected getExecutionContext(): CloudflareHelper.Platform['ctx'] {
-        return this.platform.ctx;
+    protected getExecutionContext(): TPlatform['context'] {
+        return this.platform.context;
     }
 }

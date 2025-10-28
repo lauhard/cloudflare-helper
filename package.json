@@ -1,6 +1,6 @@
 {
   "name": "@lauhard/cloudflare-helper",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "a helper class for sveltekit-projects with cloudflare workers",
   "main": "dist/index.js",
   "types": "dist/types.d.ts",
@@ -30,8 +30,11 @@
     "url": "https://github.com/lauhard/cloudflare-helper/issues"
   },
   "homepage": "https://github.com/lauhard/cloudflare-helper#readme",
+   "peerDependencies": {
+    "@cloudflare/workers-types": ">=4.0.0"
+  },
   "devDependencies": {
-    "@cloudflare/workers-types": "github:cloudflare/workers-types",
+    "@cloudflare/workers-types": "^4.20241022.0",
     "tsup": "^8.5.0",
     "typescript": "^5.9.3"
   }

@@ -1,7 +1,7 @@
 
 /// <reference types="@cloudflare/workers-types" />
 import { CloudflareBase } from './cloudflare-base';
-import { CloudflareHelper } from './types';
+import { CloudflareHelper, DefaultCloudflareplatform } from './types';
 
 
 
@@ -9,11 +9,13 @@ import { CloudflareHelper } from './types';
 /**
  * Cloudflare Cache Response Helper
  * This class provides methods to interact with the Cloudflare cache.
+ * 
+ * @template TPlatform - Platform interface, defaults to DefaultCloudflareplatform
  */
-export class CFCacheResponse extends CloudflareBase {
+export class CFCacheResponse<TPlatform extends DefaultCloudflareplatform = DefaultCloudflareplatform> extends CloudflareBase<TPlatform> {
     #cache: Cache;
 
-    constructor(platform: Readonly<CloudflareHelper.Platform>) {
+    constructor(platform: Readonly<TPlatform>) {
         super(platform);
 
         // Access default cache using base class method
@@ -168,13 +170,15 @@ export class CFCacheResponse extends CloudflareBase {
 /**
  * Cloudflare R2 Storage Helper
  * This class provides methods to interact with R2 buckets.
+ * 
+ * @template TPlatform - Platform interface, defaults to DefaultCloudflareplatform
  */
-export class CFR2 extends CloudflareBase {
+export class CFR2<TPlatform extends DefaultCloudflareplatform = DefaultCloudflareplatform> extends CloudflareBase<TPlatform> {
     // R2 limits
     private static readonly MAX_METADATA_SIZE = 8192; // 8KB
     private static readonly MAX_KEY_LENGTH = 1024;
 
-    constructor(platform: Readonly<CloudflareHelper.Platform>) {
+    constructor(platform: Readonly<TPlatform>) {
         super(platform);
     }
 
