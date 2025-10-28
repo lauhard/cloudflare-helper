@@ -11,10 +11,15 @@
       "require": "./dist/index.cjs"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsup src/index.ts", 
+    "build": "tsup",
+    "dev": "tsup --watch",
     "lint": "tsc --noEmit",
-    "prepare": "tsc --noEmit && npm run build"
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint && npm run build"
   },
   "repository": {
     "type": "git",
@@ -26,8 +31,10 @@
     "url": "https://github.com/lauhard/cloudflare-helper/issues"
   },
   "homepage": "https://github.com/lauhard/cloudflare-helper#readme",
+  "dependencies": {
+    "@cloudflare/workers-types": "^4.20241022.0"
+  },
   "devDependencies": {
-    "@cloudflare/workers-types": "github:cloudflare/workers-types",
     "tsup": "^8.5.0",
     "typescript": "^5.9.3"
   }

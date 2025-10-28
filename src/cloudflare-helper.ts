@@ -1,7 +1,7 @@
 
 /// <reference types="@cloudflare/workers-types" />
 import { CloudflareBase } from './cloudflare-base';
-import { App } from './types';
+import { CloudflareHelper } from './types';
 
 
 
@@ -13,7 +13,7 @@ import { App } from './types';
 export class CFCacheResponse extends CloudflareBase {
     #cache: Cache;
 
-    constructor(platform: Readonly<App.Platform>) {
+    constructor(platform: Readonly<CloudflareHelper.Platform>) {
         super(platform);
 
         // Access default cache using base class method
@@ -73,7 +73,7 @@ export class CFCacheResponse extends CloudflareBase {
      * @param cacheOptions Optional cache options for key normalization
      * @returns The cached response or null if not found
      */
-    async match(request: Request, cacheOptions?: App.CacheOptions): Promise<Response | null> {
+    async match(request: Request, cacheOptions?: CloudflareHelper.CacheOptions): Promise<Response | null> {
 
         // Build cache key
         const cacheKey = this.buildCacheKey(request, cacheOptions?.normalizeKey);
@@ -100,7 +100,7 @@ export class CFCacheResponse extends CloudflareBase {
      * @param cacheOptions 
      * @returns 
      */
-    async put(request: Request, response: Response, cacheOptions?: App.CacheOptions): Promise<Response> {
+    async put(request: Request, response: Response, cacheOptions?: CloudflareHelper.CacheOptions): Promise<Response> {
         // Build cache key
         const cacheKey = this.buildCacheKey(request, cacheOptions?.normalizeKey);
         if (!cacheKey) {
@@ -127,7 +127,7 @@ export class CFCacheResponse extends CloudflareBase {
      * @param cacheOptions - Optional cache options for key normalization and base request
      * @returns A promise that resolves to true if the cached response was deleted, false otherwise
      */
-    async delete(deleteRequestOrURL: Request | URL | string, cacheOptions?: App.CacheOptions): Promise<boolean> {
+    async delete(deleteRequestOrURL: Request | URL | string, cacheOptions?: CloudflareHelper.CacheOptions): Promise<boolean> {
 
         // Check deleteRequestOrURL type and create Request
         let deleteRequestUrl: string =  deleteRequestOrURL instanceof Request ?
@@ -174,7 +174,7 @@ export class CFR2 extends CloudflareBase {
     private static readonly MAX_METADATA_SIZE = 8192; // 8KB
     private static readonly MAX_KEY_LENGTH = 1024;
 
-    constructor(platform: Readonly<App.Platform>) {
+    constructor(platform: Readonly<CloudflareHelper.Platform>) {
         super(platform);
     }
 
@@ -224,7 +224,7 @@ export class CFR2 extends CloudflareBase {
     }
   
     getBucketNames() {
-        const bucketNames: App.R2BucketInfo[] = [];
+        const bucketNames: CloudflareHelper.R2BucketInfo[] = [];
         const env = this.getEnv();
         
         for (const [key, value] of Object.entries(env)) {
@@ -287,7 +287,7 @@ export class CFR2 extends CloudflareBase {
         return httpMetadata;
     }
 
-    setCustomMetadata(metadata: App.CustomMetadata) {
+    setCustomMetadata(metadata: CloudflareHelper.CustomMetadata) {
         let customMetadata: Record<string, string>= {};
         customMetadata['originalFileName'] = metadata.file.name;
         customMetadata['uploadedBy'] = metadata.userId || 'anonymous';

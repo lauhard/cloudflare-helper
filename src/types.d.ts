@@ -9,7 +9,7 @@ import type {
 
 // Type definitions for Cloudflare Workers platform in SvelteKit
 // These types should match @cloudflare/workers-types
-declare namespace App {
+export namespace CloudflareHelper {
     interface Platform {
         env: Env
         cf: CfProperties
