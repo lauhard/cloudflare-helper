@@ -1,13 +1,13 @@
 {
   "name": "@lauhard/cloudflare-helper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a helper class for sveltekit-projects with cloudflare workers",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts",
+      "types": "./dist/types.d.ts",
       "require": "./dist/index.cjs"
     }
   },
@@ -15,8 +15,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "tsup src/index.ts",
     "lint": "tsc --noEmit",
     "prepare": "npm run build",
     "prepublishOnly": "npm run lint && npm run build"
@@ -31,10 +30,8 @@
     "url": "https://github.com/lauhard/cloudflare-helper/issues"
   },
   "homepage": "https://github.com/lauhard/cloudflare-helper#readme",
-  "dependencies": {
-    "@cloudflare/workers-types": "^4.20241022.0"
-  },
   "devDependencies": {
+    "@cloudflare/workers-types": "github:cloudflare/workers-types",
     "tsup": "^8.5.0",
     "typescript": "^5.9.3"
   }
