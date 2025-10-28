@@ -12,7 +12,6 @@ export interface DefaultCloudflareplatform {
     env: Env;
     cf: CfProperties;
     ctx: ExecutionContext;
-    context: ExecutionContext;
     caches: { default: Cache } & CacheStorage;
 }
 

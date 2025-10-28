@@ -63,7 +63,7 @@ var CloudflareBase = class {
    * @returns Object with waitUntil and passThroughOnException functions
    */
   getExecutionContext() {
-    return this.platform.context;
+    return this.platform.ctx;
   }
 };
 

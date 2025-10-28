@@ -78,7 +78,7 @@ export class CloudflareBase<TPlatform extends DefaultCloudflareplatform = Defaul
      * Get the Cloudflare Workers context functions
      * @returns Object with waitUntil and passThroughOnException functions
      */
-    protected getExecutionContext(): TPlatform['context'] {
-        return this.platform.context;
+    protected getExecutionContext(): TPlatform['ctx'] {
+        return this.platform.ctx;
     }
 }

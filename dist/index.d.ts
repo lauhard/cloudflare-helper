@@ -9,7 +9,6 @@ interface DefaultCloudflareplatform {
     env: Env;
     cf: CfProperties;
     ctx: ExecutionContext;
-    context: ExecutionContext;
     caches: { default: Cache } & CacheStorage;
 }
 
@@ -92,7 +91,7 @@ declare class CloudflareBase<TPlatform extends DefaultCloudflareplatform = Defau
      * Get the Cloudflare Workers context functions
      * @returns Object with waitUntil and passThroughOnException functions
      */
-    protected getExecutionContext(): TPlatform['context'];
+    protected getExecutionContext(): TPlatform['ctx'];
 }
 
 /**
