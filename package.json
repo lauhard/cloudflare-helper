@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsup src/index.ts", 
     "lint": "tsc --noEmit",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "tsc --noEmit && npm run build"
   },
   "repository": {
     "type": "git",
@@ -30,8 +30,5 @@
     "@cloudflare/workers-types": "github:cloudflare/workers-types",
     "tsup": "^8.5.0",
     "typescript": "^5.9.3"
-  },
-  "peerDependencies": {
-    "@cloudflare/workers-types": "github:cloudflare/workers-types"
   }
 }
