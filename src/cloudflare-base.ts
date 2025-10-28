@@ -76,7 +76,7 @@ export class CloudflareBase {
      * Get the Cloudflare Workers context functions
      * @returns Object with waitUntil and passThroughOnException functions
      */
-    protected getExecutionContext(): CloudflareHelper.Platform['context'] {
-        return this.platform.context;
+    protected getExecutionContext(): CloudflareHelper.Platform['ctx'] {
+        return this.platform.ctx;
     }
 }

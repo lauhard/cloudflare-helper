@@ -1,5 +1,5 @@
 /// <reference types="@cloudflare/workers-types" />
-import { CfProperties, ExecutionContext, CacheStorage } from '@cloudflare/workers-types';
+import { Env, CfProperties, ExecutionContext, CacheStorage } from '@cloudflare/workers-types';
 
 // Import types from Cloudflare Workers
 
@@ -11,12 +11,9 @@ declare namespace CloudflareHelper {
     interface Platform {
         env: Env
         cf: CfProperties
-        context: ExecutionContext
+        ctx: ExecutionContext
         caches: { default: Cache  } & CacheStorage
-        ctx: {
-            waitUntil(promise: Promise<unknown>): void;
-            passThroughOnException(): void;
-        };
+        
     }
         interface R2BucketInfo {
         name: string
@@ -42,9 +39,6 @@ declare namespace CloudflareHelper {
         thumbnailGenerated?: string
     }
     // Generic environment interface - users can extend this in their projects
-    interface Env {
-        [key: string]: unknown;
-    }
 }
 
 /**
@@ -94,7 +88,7 @@ declare class CloudflareBase {
      * Get the Cloudflare Workers context functions
      * @returns Object with waitUntil and passThroughOnException functions
      */
-    protected getExecutionContext(): CloudflareHelper.Platform['context'];
+    protected getExecutionContext(): CloudflareHelper.Platform['ctx'];
 }
 
 /**

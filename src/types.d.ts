@@ -2,6 +2,7 @@
 
 /// <reference types="@cloudflare/workers-types" />
 import type { 
+    Env,
     CfProperties, 
     ExecutionContext,
     CacheStorage
@@ -13,12 +14,9 @@ export namespace CloudflareHelper {
     interface Platform {
         env: Env
         cf: CfProperties
-        context: ExecutionContext
+        ctx: ExecutionContext
         caches: { default: Cache  } & CacheStorage
-        ctx: {
-            waitUntil(promise: Promise<unknown>): void;
-            passThroughOnException(): void;
-        };
+        
     }
         interface R2BucketInfo {
         name: string
@@ -44,9 +42,6 @@ export namespace CloudflareHelper {
         thumbnailGenerated?: string
     }
     // Generic environment interface - users can extend this in their projects
-    interface Env {
-        [key: string]: unknown;
-    }
 }
 
 export { App };
