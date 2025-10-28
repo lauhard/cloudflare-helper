@@ -30,11 +30,8 @@
     "url": "https://github.com/lauhard/cloudflare-helper/issues"
   },
   "homepage": "https://github.com/lauhard/cloudflare-helper#readme",
-   "peerDependencies": {
-    "@cloudflare/workers-types": ">=4.0.0"
-  },
+ 
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241022.0",
     "tsup": "^8.5.0",
     "typescript": "^5.9.3"
   }
